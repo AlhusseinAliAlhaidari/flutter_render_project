@@ -1,4 +1,4 @@
 # backend/requirements.txt
-fastapi
+
+fastapi: 0.116.1
 uvicorn[standard]
-pydantic

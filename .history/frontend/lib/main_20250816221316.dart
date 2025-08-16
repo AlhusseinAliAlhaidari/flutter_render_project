@@ -58,32 +58,22 @@ class _MessagesScreenState extends State<MessagesScreen> {
     futureMessages = fetchMessages();
   }
 
- // frontend/lib/main.dart
+  Future<List<Message>> fetchMessages() async {
+    // !!! هام جداً: استبدل هذا الرابط بالرابط الذي ستحصل عليه من Render بعد النشر
+    const apiUrl = 'https://flutter-render-project-bf7z.onrender.com/messages';
 
-Future<List<Message>> fetchMessages() async {
-  const apiUrl = 'https://flutter-render-project-bf7z.onrender.com/messages';
-  print('جاري طلب البيانات من: $apiUrl' ); // للتحقق من أن الرابط صحيح
-
-  try {
     final response = await http.get(Uri.parse(apiUrl ));
 
     if (response.statusCode == 200) {
-      print('تم استلام استجابة ناجحة!');
-      final data = jsonDecode(utf8.decode(response.bodyBytes));
+      // إذا كان الطلب ناجحًا
+      final data = jsonDecode(utf8.decode(response.bodyBytes)); // يدعم اللغة العربية
       List<dynamic> messageList = data['messages'];
       return messageList.map((json) => Message.fromJson(json)).toList();
     } else {
-      // إذا فشل الطلب، ارمِ استثناءً مع رمز الحالة
-      print('فشل الطلب. رمز الحالة: ${response.statusCode}');
-      print('محتوى الاستجابة: ${response.body}');
-      throw Exception('فشل في تحميل الرسائل. رمز الحالة: ${response.statusCode}');
+      // إذا فشل الطلب
+      throw Exception('فشل في تحميل الرسائل من الـ API');
     }
-  } catch (e) {
-    // لالتقاط أي أخطاء أخرى (مثل مشاكل الشبكة)
-    print('حدث خطأ أثناء محاولة الاتصال بالـ API: $e');
-    throw Exception('فشل في الاتصال بالـ API.');
   }
-}
 
   @override
   Widget build(BuildContext context) {
