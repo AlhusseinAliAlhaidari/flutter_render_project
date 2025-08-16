@@ -1,0 +1,13 @@
+name: Keep Render Service Alive
+
+on:
+  schedule:
+    # يتم التشغيل كل 10 دقائق
+    - cron: '*/10 * * * *'
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send request to Render API
+        run: curl -s https://flutter-render-project-bf7z.onrender.com/ > /dev/null
